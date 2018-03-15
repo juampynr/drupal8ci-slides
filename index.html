@@ -76,13 +76,149 @@
         </section>
 
         <section>
-          <h2>CI tools that I have tried</h2>
+          <h2>CI tools that we have tried</h2>
           <ul>
+            <li><a href="https://jenkins.io/">Jenkins CI</a> (on AWS and elsewhere)</li>
             <li><a href="https://circleci.com" target="_blank">CircleCI</a></li>
-            <li><a href="https://jenkins.io/">Jenkins CI</a></li>
             <li><a href="https://travis-ci.org">Travis CI</a></li>
           </ul>
         </section>
+
+        <section>
+          <section data-background="images/jenkins-dashboard.png">
+            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+              <h2>Jenkins CI</h2>
+            </div>
+          </section>
+          <section>
+            <h2>Sample: shell step to run tests</h2>
+            <p><img src="images/jenkins-shell-step.png"/></p>
+          </section>
+          <section>
+            <h2>Sample (2): script used to run tests</h2>
+            <p><img src="images/jenkins-run-tests.png"/></p>
+          </section>
+          <section>
+            <h2>Setup</h2>
+            <ol>
+              <li>Install Jenkins CI in a server</li>
+              <li>Install a plugin that listens to repository changes: <a href="https://wiki.jenkins.io/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank">GitHub Pull Request Builder</a> or <a href="https://wiki.jenkins.io/display/JENKINS/Generic+Webhook+Trigger+Plugin" target="_blank">Generic Webhook Trigger</a></li>
+              <li>Allow Jenkins access to the repository</li>
+              <li>Set up the job(s)</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Pros: free and customisable</h2>
+            <p>Install it, create the jobs, and adapt them to your team's workflow. It takes time, but you
+              will end up with what you need</p>
+            <img src="images/jenkins-metrics.jpg"/>
+          </section>
+          <section data-background="images/jenkins-plugin.png">
+            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+              <h2>Pros: lots of documentation and plugins</h2>
+              <p>Jenkins has been out there for a long time. It's hard to find a problem that is not solved via
+                an article or a plugin.</p>
+            </div>
+          </section>
+          <section>
+            <h2>Pros: temporary testing environments</h2>
+            <p>Make an environment persistent by attaching a port to it</p>
+            <img src="images/build-environment.png"/>
+          </section>
+          <section>
+            <h2>Cons</h2>
+            <ul>
+              <li>Lot of setup, tweaking, and server maintenance required</li>
+              <li>It's tricky to keep the job implementation under version control</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>The big con: software is free, time isn't</h2>
+            <ul>
+              <li>As a self-hosted option, we dive into a real case of the costs of maintaining CI tooling with Jenkins</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Assumptions</h2>
+            <ul>
+              <li>Eight developers</li>
+              <li>4 jobs per pull request, 18 minutes total CPU time</li>
+              <li>8 PRs / day, testing 24 total commits</li>
+              <li>Team runs some tests locally, reducing CI load due to reworked tests</li>
+          </section>
+
+          <section>
+            <h2>EC2 as a VPS</h2>
+            <ul>
+              <li>Easiest to understand and setup</li>
+              <li>The server is always there adding to your bills</li>
+              <li>Activity spikes (like the end of a sprint)</li>
+              <li>Autoscaling is a lie</li>
+            </ul>
+          </section>
+
+          <section>
+            <table>
+            <tbody>
+            <tr>
+            <td>Instance</td>
+            <td>m4.2xlarge</td>
+            </tr>
+            <tr>
+            <td>Cores</td>
+            <td>8</td>
+            </tr>
+            <tr>
+            <td>Memory</td>
+            <td>32GB</td>
+            </tr>
+            <tr>
+            <td>Cost</td>
+            <td>$0.40/hr</td>
+            </tr>
+            <tr>
+            <td>Monthly</td>
+            <td>$~288</td>
+            </tr>
+            <tr>
+            <td>Memory / Job</td>
+            <td>
+            <p>~512MB (composer update)</p>
+            </td>
+            </tr>
+            <tr>
+            <td>Concurrency</td>
+            <td>
+            <p>Memory says ~48 jobs, but CPU limits hit first. ~10 in real world use due to other jobs.</p>
+            </td>
+            </tbody>
+            </table>
+          </section>
+
+          <section>
+            <h2>Engineering costs</h2>
+            <p>Juampy spent:</p>
+            <ul>
+              <li>116 hours over 15 months</li>
+              <li>Time entries logged with keywords Jenkins, CI, or Continous (no migrations!)</li>
+              <li>Literally hundreds to thousands of dollars per month</li>
+              <li>Doesn't include client team hours which was all of the infrastructure and hosting</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Knowledge pool</h2>
+            <p>Your team presumably knows Drupal, JavaScript, programming. <em>You</em> might know Jenkins, but is it your job? What about after the initial setup?</p>
+          </section>
+
+          <section>
+            <p>The costs of hosting Jenkins are directly related to the expertise of your devops staff; you may pay more for a Jenkins expert than the hosting costs of an unoptimized architecture.</p>
+          </section>
+
+        </section>
+
 
         <section>
           <section data-background="images/circleci-dashboard.png">
@@ -307,56 +443,6 @@ defaults: &defaults
             <h2>Sample installation clip</h2>
             <p><a href="https://circleci.com/gh/juampynr/d8cidemo" target="_blank">Drupal 8 demo project</a></p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/b-iT2zy1d-A?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </section>
-        </section>
-
-        <section>
-          <section data-background="images/jenkins-dashboard.png">
-            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
-              <h2>Jenkins CI</h2>
-            </div>
-          </section>
-          <section>
-            <h2>Sample: shell step to run tests</h2>
-            <p><img src="images/jenkins-shell-step.png"/></p>
-          </section>
-          <section>
-            <h2>Sample (2): script used to run tests</h2>
-            <p><img src="images/jenkins-run-tests.png"/></p>
-          </section>
-          <section>
-            <h2>Setup</h2>
-            <ol>
-              <li>Install Jenkins CI in a server</li>
-              <li>Install a plugin that listens to repository changes: <a href="https://wiki.jenkins.io/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank">GitHub Pull Request Builder</a> or <a href="https://wiki.jenkins.io/display/JENKINS/Generic+Webhook+Trigger+Plugin" target="_blank">Generic Webhook Trigger</a></li>
-              <li>Allow Jenkins access to the repository</li>
-              <li>Set up the job(s)</li>
-            </ol>
-          </section>
-          <section>
-            <h2>Pros: free and customisable</h2>
-            <p>Install it, create the jobs, and adapt them to your team's workflow. It takes time, but you
-              will end up with what you need</p>
-            <img src="images/jenkins-metrics.jpg"/>
-          </section>
-          <section data-background="images/jenkins-plugin.png">
-            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
-              <h2>Pros: lots of documentation and plugins</h2>
-              <p>Jenkins has been out there for a long time. It's hard to find a problem that is not solved via
-                an article or a plugin.</p>
-            </div>
-          </section>
-          <section>
-            <h2>Pros: temporary testing environments</h2>
-            <p>Make an environment persistent by attaching a port to it</p>
-            <img src="images/build-environment.png"/>
-          </section>
-          <section>
-            <h2>Cons</h2>
-            <ul>
-              <li>Lot of setup, tweaking, and server maintenance required</li>
-              <li>It's tricky to keep the job implementation under version control</li>
-            </ul>
           </section>
         </section>
 
