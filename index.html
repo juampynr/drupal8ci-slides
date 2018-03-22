@@ -560,9 +560,43 @@ script:
           </section>
 
           <section>
+            <h2>Code and it's consequences</h2>
+          </section>
+
+          <section>
+            <h2>Six months or six years?</h2>
+          </section>
+
+          <section>
+            <h2>Cappuccino or a Latte?</h2>
+            <p>Are you continuously stretching your code base to be larger, or refining and replacing the same code, over and over?</p>
+          </section>
+
+          <section>
+            <h2>Ease of updates</h2>
+            <p>Can you easily deploy updates, or is software being distributed to far-flung teams?</p>
+            <aside class="notes">
+              One-time handoff of code may not be worth testing if it won't be maintained.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Environmental Conditions</h2>
+            <p>Where is your code running? One site and environment, or many?</p>
+          </section>
+
+          <section>
+            <h2>QA Planning</h2>
+            <p>Regression testing is the biggest pain point. Developers as QA can be a great model.</p>
+          </section>
+
+          <section>
             <h2>Developers</h2>
-            <blockquote>"(Unit or Functional) Tests are too hard"</blockquote>
+            <blockquote>"Tests are too hard"</blockquote>
             <p>Tests are <em>tools</em> and <em>APIs</em> that teach you the underlying systems.</p>
+            <aside class="notes">
+              Core skills include repeatable test cases, mocking test data and code, and well-architected code. This is an argument about time, not skills.
+            </aside>
           </section>
 
           <section>
@@ -574,14 +608,29 @@ script:
           <section>
             <h2>Project Managers</h2>
             <blockquote>"We will spend more time on tests than fixing bugs"</blockquote>
-            <p>Be tactical about what to test. Trust your developers. Track your hours. Think about the best use of their expertise.</p>
+            <p>Be tactical about what to test. Trust your developers. Track your hours.</p>
+            <aside class="notes">
+              Think about the best use of their expertise. If you are spending too much time on tests, it's a sign the code is in rough shape.
+            </aside>
           </section>
 
           <section>
             <h2>Product Owners</h2>
             <blockquote>"We need to deliver"</blockquote>
-            <p>The only thing worse than missing dates is becoming uncompetitive due to release fear.</p>
+            <p>Continuous integration is an answer to the need for continuous delivery.</p>
+            <aside class="notes">
+              Think about a hotfix. Delivery is much faster with comprehensive CI and testing. Hotfixes are stressful, and CI helps ensure you don't make mistakes while stressed.
+            </aside>
           </section>
+        </section>
+
+        <section>
+          <h2>Culture</h2>
+          <ul>
+            <li>Emphasize team efficiency</li>
+            <li>Trust in the tools and don't override them</li>
+            <li>Always be improving, especially for existing code bases</li>
+          </ul>
         </section>
 
         <section>
