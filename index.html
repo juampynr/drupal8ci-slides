@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Continuous Integration has never been so easy</title>
+    <title>Continuous Integration has never been so easy - DrupalCon 2018</title>
 
     <meta name="description" content="An overview of CI tools for Drupal 8 projects">
 
@@ -39,40 +39,35 @@
 
     <div class="reveal">
       <div class="slides">
-        <!-- I have no idea why this first slide is always blank -->
-        <section data-background="images/lullabot-logo.png" data-background-color="#FFFFFF" data-background-size="500px">
+        <section>
+          <h1>Continuous Integration has never been so easy</h1>
+          <h3>DrupalCon Nashville, April 2018</h3>
         </section>
 
-        <section data-background="images/01-drupalcon-header.jpeg" data-background-color="#FFFFFF">
-        </section>
         <section data-background="images/02-title-slide.jpeg" data-background-color="#FFFFFF">
         </section>
 
         <section data-background="images/lullabot-logo.png" data-background-color="#FFFFFF" data-background-size="500px">
         </section>
 
+        <section>
+          <p>Continuous Integration enables your team to deliver <em>more software</em>, with <em>higher quality</em>, over a <em>longer period of time</em>. A successful CI implementation requires proper management of sprint, product, and financial risk.</p>
+          <!-- Notes: Talk here about how did we start doing this and what it has lead us to. -->
+        </section>
+
         <section data-background="images/cifeedback.jpg">
           <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
             <section>
               <h2>What sort of Continuous Integration are we focusing in?</h2>
-              <p>When a developer creates a pull request:</p>
               <ul>
-                <li>Run Unit and Kernel tests</li>
-                <li>Run Behat tests</li>
-                <li>Check how much code is covered by tests</li>
-                <li>Check that the changes follow Drupal's coding standards</li>
+                <li>Unit and Kernel tests</li>
+                <li>Behat tests</li>
+                <li>Code Coverage report</li>
+                <li>Drupal's coding standards</li>
               </ul>
-              <p>Everything should happen in an isolated, ephemeral environment</p>
             </section>
           </div>
-        </section>
-
-        <section>
-          <h2>Disclaimer</h2>
-          <p>I have used Jenkins for years and recently I have started using CircleCI. I have never used
-            Travis CI in a real project.</p>
-          <p>I am sharing what I discovered with an open heart. Please, do let me know if there are things
-            that I am missing or that I should try. It's being a lot of fun testing CI tools.</p>
+          <!-- Notes: We are covering just Continuous Integration in this talk. Continuous Delivery deserves it's own session. Besides, there is one so go to it! -->
         </section>
 
         <section>
@@ -85,10 +80,25 @@
         </section>
 
         <section>
+          <h2>Summary of our findings</h2>
+          <ul>
+            <li>Start with CircleCI or Travis CI. Their free tier should be enough to start with most projects.</li>
+            <li>CircleCI and Travis CI can do the same, but Travis CI requires further setup.</li>
+            <li>If you need to upgrade, compare the costs with how long would it take you to set up and maintain the infrastructure in Jenkins.</li>
+          </ul>
+        </section>
+
+        <section>
           <section data-background="images/jenkins-dashboard.png">
-            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
               <h2>Jenkins CI</h2>
             </div>
+            <!--
+              We have been using Jenkins for CI for a few years, and got to a very fine-grained level of integration with each team.
+              Jenkins is great for its flexibility but it comes at a cost. It will take you days to go from a vanilla server to a
+              working Jenkins installation that triggers jobs on repository changes. Besides, versioning job configuration is still
+              not possible so it is hard to develop the jobs without disrupting the development workflow.
+            -->
           </section>
           <section>
             <h2>Sample: shell step to run tests</h2>
@@ -114,7 +124,7 @@
             <img src="images/jenkins-metrics.jpg"/>
           </section>
           <section data-background="images/jenkins-plugin.png">
-            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
               <h2>Pros: lots of documentation and plugins</h2>
               <p>Jenkins has been out there for a long time. It's hard to find a problem that is not solved via
                 an article or a plugin.</p>
@@ -123,7 +133,13 @@
           <section>
             <h2>Pros: temporary testing environments</h2>
             <p>Make an environment persistent by attaching a port to it</p>
+            <p>TODO: update the following screenshot with a better approach</p>
+          </section>
+
+          <section>
             <img src="images/build-environment.png"/>
+          </section>
+
           </section>
           <section>
             <h2>Cons</h2>
@@ -221,6 +237,7 @@
 
 
         <section>
+          <!-- TODO: update the background with the one at https://circleci.com/gh/juampynr/drupal8-circleci, which does not load at the moment. -->
           <section data-background="images/circleci-dashboard.png">
             <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
               <h2>CircleCI</h2>
@@ -228,12 +245,19 @@
           </section>
           <section>
             <h2>Sample</h2>
-            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/.circleci/config.yml" target="_blank">Open it at GitHub</a></p>
+            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/circleci/.circleci/config.yml" target="_blank">Open it at GitHub</a></p>
             <pre>
               <code>
-                # Runs a set of CI jobs for Drupal 8 projects.
+# CircleCI integration with Drupal 8.
 
 # Reusable steps.
+
+## Copies .circle/Robofile to the repository root.
+copy_robo: &copy_robo
+  run:
+    name: Copy RoboFile.php
+    command: cp .circleci/RoboFile.php .
+
 ## Defines images and working directory.
 defaults: &defaults
   docker:
@@ -262,19 +286,21 @@ save_cache: &save_cache
   key: v1-dependencies-{{ checksum "composer.json" }}
 
 #Jobs
+
 ## Job to run Unit and Kernel tests.
 unit_kernel_tests: &unit_kernel_tests
   <<: *defaults
-      steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run:
-      name: Set up and run Unit and Kernel tests
-      command: |
-      apache2-foreground&
-      robo install:dependencies
-      robo setup:drupal || true
-      cp .circleci/config/phpunit.xml web/core/
+  steps:
+    - checkout
+    - *copy_robo
+    - restore_cache: *restore_cache
+    - run:
+        name: Set up and run Unit and Kernel tests
+        command: |
+          apache2-foreground&
+          robo install:dependencies
+          robo setup:drupal || true
+          cp .circleci/config/phpunit.xml web/core/
           mkdir -p artifacts/phpunit
           chmod -R 777 artifacts
           cd web
@@ -288,23 +314,25 @@ unit_kernel_tests: &unit_kernel_tests
 ## Job to run the update path and Behat tests.
 behat_tests: &behat_tests
   <<: *defaults
-      steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run:
-      name: Wait for the database service to be ready
-      command: dockerize -wait tcp://localhost:3306 -timeout 1m
+  steps:
+    - checkout
+    - *copy_robo
+    - restore_cache: *restore_cache
+    - run:
+        name: Wait for the database service to be ready
+        command: dockerize -wait tcp://localhost:3306 -timeout 1m
     - run:
         name: Install database and run the update path
         command: |
           robo install:dependencies
-          robo setup:drupal || true
-          cd web
+          cp .circleci/config/settings.local.php web/sites/default/
+          mysql -u root -h 127.0.0.1 -e "create database drupal8"
           # For a quick start, set the following environment variable to a URL that contains
-          # a database dump. Alternativelly, give CircleCI access to your development environment
-          # and use Drush site aliases to run `drush sql-sync`.
+          # a database dump of the project. Alternativelly, give CircleCI access to your
+          # development environment and use Drush site aliases to run `drush sql-sync`.
           wget -O dump.sql $DB_DUMP_URL
-          ../vendor/bin/drush sql-cli < dump.sql
+          cd web
+          ../vendor/bin/drush sql-cli < ../dump.sql
           ../vendor/bin/drush updatedb -y -v
           ../vendor/bin/drush config-import -y -v
           cd ..
@@ -324,14 +352,15 @@ behat_tests: &behat_tests
 ## Job to check coding standards.
 code_sniffer: &code_sniffer
   <<: *defaults
-      steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run:
-      name: Set up and inspect coding standards
-      command: |
-      robo install:dependencies
-      vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer
+  steps:
+    - checkout
+    - *copy_robo
+    - restore_cache: *restore_cache
+    - run:
+        name: Set up and inspect coding standards
+        command: |
+          robo install:dependencies
+          vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer
           mkdir -p artifacts/phpcs
           vendor/bin/phpcs --standard=Drupal --report=junit --report-junit=artifacts/phpcs/phpcs.xml web/modules/custom
           vendor/bin/phpcs --standard=DrupalPractice --report=junit --report-junit=artifacts/phpcs/phpcs.xml web/modules/custom
@@ -344,13 +373,14 @@ code_sniffer: &code_sniffer
 ## Job to check test coverage.
 code_coverage: &code_coverage
   <<: *defaults
-      steps:
-      - checkout
-      - restore_cache: *restore_cache
-      - run:
-      name: Set up and inspect code coverage
-      environment:
-      SIMPLETEST_BASE_URL: "http://localhost"
+  steps:
+    - checkout
+    - *copy_robo
+    - restore_cache: *restore_cache
+    - run:
+        name: Set up and inspect code coverage
+        environment:
+          SIMPLETEST_BASE_URL: "http://localhost"
           SIMPLETEST_DB: "sqlite://localhost//tmp/drupal.sqlite"
           BROWSERTEST_OUTPUT_DIRECTORY: "/var/www/html/sites/simpletest"
         command: |
@@ -373,22 +403,22 @@ version: 2
 jobs:
   run-unit-kernel-tests:
      <<: *unit_kernel_tests
-         run-behat-tests:
+  run-behat-tests:
      <<: *behat_tests
-         run-code-sniffer:
+  run-code-sniffer:
      <<: *code_sniffer
-         run-code-coverage:
+  run-code-coverage:
      <<: *code_coverage
 
-         # Declare a workflow that runs all of our jobs in parallel.
-         workflows:
-         version: 2
-         test_and_lint:
-         jobs:
-         - run-unit-kernel-tests
-         - run-behat-tests
-         - run-code-sniffer
-         - run-code-coverage
+# Declare a workflow that runs all of our jobs in parallel.
+workflows:
+  version: 2
+  test_and_lint:
+    jobs:
+      - run-unit-kernel-tests
+      - run-behat-tests
+      - run-code-sniffer
+      - run-code-coverage
               </code>
             </pre>
           </section>
@@ -400,14 +430,15 @@ jobs:
               <li>Allow CircleCI to watch for repository changes to run jobs</li>
             </ol>
           </section>
+          <!-- TODO update background with https://circleci.com/gh/juampynr/drupal8-circleci -->
           <section data-background="images/circleci-dashboard.png">
-            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
               <h2>Pros: parallel processing</h2>
               <p>Via <a href="https://circleci.com/docs/2.0/workflows/" target="_blank">workflows</a>: split a job in several sub-jobs that run in parallel</p>
             </div>
           </section>
           <section>
-            <h2>Pros: <a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/.circleci/config.yml" target="_blank">docker-compose-style</a> environments</h2>
+            <h2>Pros: <a href="https://docs.docker.com/compose/" target="_blank">docker-compose-style</a> environments</h2>
             <pre>
               <code>
 ## Defines images and working directory.
@@ -454,20 +485,26 @@ defaults: &defaults
           </section>
           <section>
             <h2>Sample</h2>
-            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/.travis.yml" target="_blank">View on GitHub</a></p>
+            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis.yml" target="_blank">View on GitHub</a></p>
             <pre>
               <code>
 language: php
 dist: trusty
-sudo: false
+sudo: required
+
+services:
+  - docker
 
 php:
   - 7.1
 
 env:
   global:
-    - DRUPAL_DB=sqlite://tmp/site.sqlite
     - DRUPAL_BASE_URL="http://127.0.0.1:8080"
+  matrix:
+    - JOB=job:check-coding-standards
+    - JOB=job:run-unit-tests
+    - JOB=job:run-behat-tests
 
 before_install:
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -475,38 +512,30 @@ before_install:
 install:
   - composer --verbose install
 
+before_script:
+  - cp .travis/RoboFile.php .
+
 script:
-  # Install Drupal and start the web server.
-  - cd web
-  - ../vendor/bin/drush site-install --verbose --yes --db-url=$DRUPAL_DB
-  - ../vendor/bin/drush runserver $DRUPAL_BASE_URL &
-  - until curl -s $DRUPAL_BASE_URL; do true; done > /dev/null
-  - cd ..
+  - vendor/bin/robo $JOB
 
-  # Run unit and kernel tests.
-  - cp .travis/config/phpunit.xml web/core/
-  - cd web
-  - ../vendor/bin/phpunit -c core --debug --verbose modules/custom
-  - cd ..
-
-  # Check Drupal's coding standards.
-  - vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer
-  - vendor/bin/phpcs --standard=Drupal web/modules/custom
-  - vendor/bin/phpcs --standard=DrupalPractice web/modules/custom
-
+after_success:
+  - test $JOB = "job:run-unit-tests" && travis_retry php vendor/bin/php-coveralls -v
               </code>
             </pre>
           </section>
-          <section>
-            <h2>Setup</h2>
-            <ol>
-              <li>Add a <a href="https://docs.travis-ci.com/user/customizing-the-build/" target="_blank">.travis.yml</a> file to the repository</li>
-              <li>Authenticate with your GitHub account at <a href="https://travis-ci.org/" target="_blank">https://travis-ci.org</a></li>
-              <li>Allow Travis CI to watch for repository changes to run jobs</li>
-            </ol>
+          <section data-background="images/travis-watch.png">
+            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+
+              <h2>Setup</h2>
+              <ol>
+                <li>Add a <a href="https://docs.travis-ci.com/user/customizing-the-build/" target="_blank">.travis.yml</a> file to the repository</li>
+                <li>Authenticate with your GitHub account at <a href="https://travis-ci.org/" target="_blank">https://travis-ci.org</a></li>
+                <li>Allow Travis CI to watch for repository changes to run jobs</li>
+              </ol>
+            </div>
           </section>
           <section data-background="images/travisci-dashboard.png">
-            <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
               <h2>Pros: tons of documentation</h2>
               <p>On top of the <a href="https://docs.travis-ci.com/" target="_blank">official documentation</a>, there
                 are a lot of private and open source projects that use Travis CI so it's relatively easy
@@ -516,14 +545,14 @@ script:
           <section>
             <h2>Cons</h2>
             <ul>
-              <li>Not possible to run different things in parallel like CircleCI does</li>
-              <li>Supports Docker but <a href="https://docs.travis-ci.com/user/docker/#Using-a-Docker-Image-from-a-Repository-in-a-Build" target="_blank">needs extra setup</a></li>
-              <li>SSH access is available for private projects. Public ones require <a href="https://docs.travis-ci.com/user/running-build-in-debug-mode/" target="_blank">manual activation via email request</a></li>
+              <li>Coverage reports require a third party service like <a href="https://coveralls.io/" target="_blank">Coveralls</a></li>
+              <li>Supports Docker but <a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis/RoboFile.php#L119" target="_blank">needs extra setup</a></li>
+              <li>No CLI, even though if you use <code>docker-compose</code> you can run the build locally</li>
             </ul>
           </section>
           <section>
             <h2>Sample</h2>
-            <p><a href="https://travis-ci.org/juampynr/d8cidemo/builds" target="_blank">Drupal 8 demo project</a></p>
+            <p><a href="https://travis-ci.org/juampynr/drupal8-travis-ci" target="_blank">Drupal 8 demo project</a></p>
           </section>
         </section>
 
@@ -651,9 +680,9 @@ script:
         <section>
           <h2>Conclusion</h2>
           <ul>
-            <li>Start with CircleCI or Travis CI. They both have free subscription tiers.</li>
-            <li>If you need more power, consider upgrading your account or migrating the scripts to a Jenkins
-              infrastructure that uses <a href="https://docs.docker.com/compose/overview/" target="_blank">docker-compose</a>.</li>
+            <li>Start with CircleCI or Travis CI. Their free tier should be enough to start with most projects.</li>
+            <li>CircleCI and Travis CI can do the same, but Travis CI requires further setup.</li>
+            <li>If you need to upgrade, compare the costs with how long would it take you to set up and maintain the infrastructure in Jenkins.</li>
           </ul>
         </section>
 
@@ -669,21 +698,6 @@ script:
         <section data-background="images/yyy-sprints.jpeg" data-background-color="#FFFFFF">
         </section>
         <section data-background="images/zzz-feedback.jpeg" data-background-color="#FFFFFF">
-        </section>
-
-        <section>
-          <h2>Thanks! Questions?</h2>
-          <p>
-            <a href="https://twitter.com/deviantintegral" target="_blank">@deviantintegral</a>
-            &
-            <a href="https://twitter.com/juampynr" target="_blank">@juampynr</a>
-          </p>
-          <p>
-            <img src="//i.imgflip.com/7uno1.gif"/>
-          </p>
-          <p>
-            If you liked this session, support us by <a href="" target="_blank">giving feedback</a>
-          </p>
         </section>
       </div>
     </div>
