@@ -61,12 +61,7 @@
           <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
             <section>
               <h2>What sort of Continuous Integration are we focusing in?</h2>
-              <ul>
-                <li>Unit and Kernel tests</li>
-                <li>Behat tests</li>
-                <li>Code Coverage report</li>
-                <li>Drupal's coding standards</li>
-              </ul>
+
             </section>
           </div>
           <aside class="notes">
@@ -88,7 +83,6 @@
           <ul>
             <li>Start with CircleCI or Travis CI. Their free tier should be enough to start with most projects.</li>
             <li>CircleCI and Travis CI can do the same, but Travis CI requires further setup.</li>
-            <li>If you need to upgrade, compare the costs with how long would it take you to set up and maintain the infrastructure in Jenkins.</li>
           </ul>
         </section>
 
@@ -711,29 +705,23 @@ after_success:
 
     <script>
 
-      // Full list of configuration options available at:
-      // https://github.com/hakimel/reveal.js#configuration
+      // More info https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
         controls: true,
         progress: true,
         history: true,
         center: true,
-
         transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-        // Optional reveal.js plugins
+        // More info https://github.com/hakimel/reveal.js#dependencies
         dependencies: [
           { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
           { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
           { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
           { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/search/search.js', async: true },
           { src: 'plugin/zoom-js/zoom.js', async: true },
           { src: 'plugin/notes/notes.js', async: true }
-        ],
-        keyboard: {
-          39: 'next',
-          37: 'prev'
-        }
+        ]
       });
 
     </script>
