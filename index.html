@@ -225,9 +225,7 @@
           <section>
             <p>The costs of hosting Jenkins are directly related to the expertise of your devops staff; you may pay more for a Jenkins expert than the hosting costs of an unoptimized architecture.</p>
           </section>
-
         </section>
-
 
         <section>
           <!-- TODO: update the background with the one at https://circleci.com/gh/juampynr/drupal8-circleci, which does not load at the moment. -->
@@ -307,13 +305,8 @@ defaults: &defaults
             <h2>Cons</h2>
             <ul>
               <li>Not free! May not be suitable for teams with long, slow jobs, and many repositories</li>
-              <li>Not able to customize commit messages to things like "3 unit tests tests failed"</li>
+              <li>Not as customizable as a Jenkins setup</li>
             </ul>
-          </section>
-          <section>
-            <h2>Sample installation clip</h2>
-            <p><a href="https://circleci.com/gh/juampynr/d8cidemo" target="_blank">Drupal 8 demo project</a></p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/b-iT2zy1d-A?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </section>
         </section>
 
@@ -328,16 +321,6 @@ defaults: &defaults
             <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis.yml" target="_blank">View on GitHub</a></p>
             <pre>
               <code>
-language: php
-dist: trusty
-sudo: required
-
-services:
-  - docker
-
-php:
-  - 7.1
-
 env:
   global:
     - DRUPAL_BASE_URL="http://127.0.0.1:8080"
@@ -346,14 +329,8 @@ env:
     - JOB=job:run-unit-tests
     - JOB=job:run-behat-tests
 
-before_install:
-  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-
 install:
   - composer --verbose install
-
-before_script:
-  - cp .travis/RoboFile.php .
 
 script:
   - vendor/bin/robo $JOB
