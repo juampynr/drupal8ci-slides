@@ -81,15 +81,16 @@
         <section>
           <h2>Summary of our findings</h2>
           <ul>
-            <li>Start with CircleCI or Travis CI. Their free tier should be enough to start with most projects.</li>
-            <li>CircleCI and Travis CI can do the same, but Travis CI requires further setup.</li>
+            <li>Start with CircleCI or Travis CI</li>
+            <li>Travis CI requires further setup than Circle CI</li>
+            <li>If you prefer to keep everything in-house, use Jenkins</li>
           </ul>
         </section>
 
         <section>
           <section data-background="images/jenkins-dashboard.png">
             <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-              <h2>Jenkins CI</h2>
+              <h2>Jenkins</h2>
             </div>
             <aside class="notes">
               We have been using Jenkins for CI for a few years, and got to a very fine-grained level of integration with each team.
@@ -110,7 +111,7 @@
             <h2>Setup</h2>
             <ol>
               <li>Install Jenkins CI in a server</li>
-              <li>Install a plugin that listens to repository changes: <a href="https://wiki.jenkins.io/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank">GitHub Pull Request Builder</a> or <a href="https://wiki.jenkins.io/display/JENKINS/Generic+Webhook+Trigger+Plugin" target="_blank">Generic Webhook Trigger</a></li>
+              <li>Listen to repository changes with <a href="https://wiki.jenkins.io/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank">GitHub Pull Request Builder</a> or <a href="https://wiki.jenkins.io/display/JENKINS/Generic+Webhook+Trigger+Plugin" target="_blank">Generic Webhook Trigger</a></li>
               <li>Allow Jenkins access to the repository</li>
               <li>Set up the job(s)</li>
             </ol>
