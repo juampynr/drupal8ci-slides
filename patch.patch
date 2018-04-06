@@ -1,0 +1,266 @@
+diff --git a/index.html b/index.html
+index 4e4cd3e..68a7902 100644
+--- a/index.html
++++ b/index.html
+@@ -59,18 +59,27 @@
+ 
+         <section data-background="images/cifeedback.jpg">
+           <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+-            <section>
+-              <h2>What sort of Continuous Integration are we focusing in?</h2>
+-
+-            </section>
++            <h2>What sort of Continuous Integration are we focusing in?</h2>
++            <aside class="notes">
++              We are covering just Continuous Integration in this talk. Continuous Delivery deserves it's own session. Besides,
++              there is one so go to it!
++              @TODO Check if there are sessions on continuous delivery
++            </aside>
+           </div>
+-          <aside class="notes">
+-            We are covering just Continuous Integration in this talk. Continuous Delivery deserves it's own session. Besides, there is one so go to it!
+-          </aside>
+         </section>
+ 
+         <section>
+-          <h2>CI tools that we have tried</h2>
++          <h2>Tools that we used</h2>
++          <ul>
++            <li>Drush</li>
++            <li>Robo</li>
++            <li>Docker</li>
++            <li>Behat</li>
++          </ul>
++        </section>
++
++        <section>
++          <h2>CI tools</h2>
+           <ul>
+             <li><a href="https://jenkins.io/">Jenkins CI</a> (on AWS and elsewhere)</li>
+             <li><a href="https://circleci.com" target="_blank">CircleCI</a></li>
+@@ -79,12 +88,16 @@
+         </section>
+ 
+         <section>
+-          <h2>Summary of our findings</h2>
++          <h2>Our findings</h2>
+           <ul>
+             <li>Start with CircleCI or Travis CI</li>
+-            <li>Travis CI requires further setup than Circle CI</li>
+-            <li>If you prefer to keep everything in-house, use Jenkins</li>
++            <li>Travis CI requires further setup than CircleCI, but allows further fine tuning</li>
++            <li>If you prefer to keep everything in-house, use Jenkins or install CircleCI</li>
+           </ul>
++          <aside class="notes">
++            CircleCI has a behind firewall version. Check if Travis CI does too.
++          </aside>
++
+         </section>
+ 
+         <section>
+@@ -97,10 +110,10 @@
+               Jenkins is great for its flexibility but it comes at a cost. It will take you days to go from a vanilla server to a
+               working Jenkins installation that triggers jobs on repository changes. Besides, versioning job configuration is still
+               not possible so it is hard to develop the jobs without disrupting the development workflow.
+-            </aside>>
++            </aside>
+           </section>
+           <section>
+-            <h2>Sample: shell step to run tests</h2>
++            <h2>Running tests in a shell step</h2>
+             <p><img src="images/jenkins-shell-step.png"/></p>
+           </section>
+           <section>
+@@ -112,14 +125,12 @@
+             <ol>
+               <li>Install Jenkins CI in a server</li>
+               <li>Listen to repository changes with <a href="https://wiki.jenkins.io/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank">GitHub Pull Request Builder</a> or <a href="https://wiki.jenkins.io/display/JENKINS/Generic+Webhook+Trigger+Plugin" target="_blank">Generic Webhook Trigger</a></li>
+-              <li>Allow Jenkins access to the repository</li>
+               <li>Set up the job(s)</li>
+             </ol>
+           </section>
+           <section>
+             <h2>Pros: free and customisable</h2>
+-            <p>Install it, create the jobs, and adapt them to your team's workflow. It takes time, but you
+-              will end up with what you need</p>
++            <p>Install it, create the jobs, and adapt them to your team's workflow.</p>
+             <img src="images/jenkins-metrics.jpg"/>
+           </section>
+           <section data-background="images/jenkins-plugin.png">
+@@ -228,29 +239,26 @@
+         </section>
+ 
+         <section>
+-          <!-- TODO: update the background with the one at https://circleci.com/gh/juampynr/drupal8-circleci, which does not load at the moment. -->
+           <section data-background="images/circleci-dashboard.png">
+             <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+               <h2>CircleCI</h2>
+             </div>
++            <aside class="notes">
++              TODO: update the background with the one at https://circleci.com/gh/juampynr/drupal8-circleci, which does not load at the moment.
++            </aside>
+           </section>
+           <section>
+-            <h2>Sample</h2>
+-            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/circleci/.circleci/config.yml" target="_blank">Open it at GitHub</a></p>
++            <h2>.circleci/config.yml</h2>
++            <p><a href="https://github.com/juampynr/drupa8-circleci/blob/master/.circleci/config.yml" target="_blank">View full file</a></p>
+             <pre>
+-              <code>
++              <code>unit_kernel_tests: &unit_kernel_tests
++  <<: *defaults
++  steps:
+     - checkout
+     - restore_cache: *restore_cache
+     - run:
+-        name: Set up and run Unit and Kernel tests
+-        command: |
+-          robo install:dependencies
+-          robo setup:drupal || true
+-          cp .circleci/config/phpunit.xml web/core/
+-          mkdir -p artifacts/phpunit
+-          chmod -R 777 artifacts
+-          cd web
+-          sudo -E -u www-data ../vendor/bin/phpunit -c core --debug --verbose --log-junit ../artifacts/phpunit/phpunit.xml modules/custom
++        name: Run PHPUnit tests
++        command: robo job:run-unit-tests
+     - store_test_results:
+         path: /var/www/html/artifacts/phpunit
+     - store_artifacts:
+@@ -264,7 +272,7 @@
+             <ol>
+               <li>Add a <a href="https://circleci.com/docs/2.0/sample-config/" target="_blank">.circleci/config.yml</a> file to the repository</li>
+               <li>Authenticate with your GitHub account at <a href="https://circleci.com" target="_blank">https://circleci.com</a></li>
+-              <li>Allow CircleCI to watch for repository changes to run jobs</li>
++              <li>Allow CircleCI to watch for repository changes</li>
+             </ol>
+           </section>
+           <!-- TODO update background with https://circleci.com/gh/juampynr/drupal8-circleci -->
+@@ -272,14 +280,15 @@
+             <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+               <h2>Pros: parallel processing</h2>
+               <p>Via <a href="https://circleci.com/docs/2.0/workflows/" target="_blank">workflows</a>: split a job in several sub-jobs that run in parallel</p>
++              <aside class="notes">
++                @TODO Change background to one using drupal8-circleci
++              </aside>
+             </div>
+           </section>
+           <section>
+             <h2>Pros: <a href="https://docs.docker.com/compose/" target="_blank">docker-compose-style</a> environments</h2>
+             <pre>
+-              <code>
+-## Defines images and working directory.
+-defaults: &defaults
++              <code>defaults: &defaults
+   docker:
+     - image: juampynr/drupal8ci:latest
+ 
+@@ -292,7 +301,7 @@ defaults: &defaults
+             </pre>
+           </section>
+           <section>
+-            <h2>Pros: <a href="https://circleci.com/docs/2.0/ssh-access-jobs/" target="_blank">SSH access to a build's environment</a></h2>
++            <h2>Pros: <a href="https://circleci.com/docs/2.0/ssh-access-jobs/" target="_blank">SSH access to job environments</a></h2>
+             <img src="images/rebuild-ssh-dropdown.png"/>
+             <img src="images/ssh-info.png"/>
+           </section>
+@@ -303,7 +312,7 @@ defaults: &defaults
+           <section>
+             <h2>Cons</h2>
+             <ul>
+-              <li>Not free! May not be suitable for teams with long, slow jobs, and many repositories</li>
++              <li>The free service only allows one concurrent job at a time</li>
+               <li>Not as customizable as a Jenkins setup</li>
+             </ul>
+           </section>
+@@ -314,30 +323,35 @@ defaults: &defaults
+             <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
+               <h2>Travis CI</h2>
+             </div>
++            <aside class="notes">
++              @TODO Change background for one of a job with better stats.
++            </aside>
+           </section>
+           <section>
+-            <h2>Sample</h2>
+-            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis.yml" target="_blank">View on GitHub</a></p>
++            <h2>.travis.yml</h2>
++            <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis.yml" target="_blank">View full file</a></p>
+             <pre>
+-              <code>
++              <code>services:
++  - docker
++
++cache:
++  directories:
++    - $HOME/.composer/cache/files
++
+ env:
+-  global:
+-    - DRUPAL_BASE_URL="http://127.0.0.1:8080"
+   matrix:
+     - JOB=job:check-coding-standards
+     - JOB=job:run-unit-tests
+     - JOB=job:run-behat-tests
+ 
+-install:
+-  - composer --verbose install
+-
+ script:
+   - vendor/bin/robo $JOB
+-
+-after_success:
+-  - test $JOB = "job:run-unit-tests" && travis_retry php vendor/bin/php-coveralls -v
+               </code>
+             </pre>
++            <aside class="notes">
++              @TODO remove DRUPAL_BASE_URL from .travis.yml as it is not needed.
++              @TODO move install to robo command
++            </aside>
+           </section>
+           <section data-background="images/travis-watch.png">
+             <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+@@ -346,7 +360,7 @@ after_success:
+               <ol>
+                 <li>Add a <a href="https://docs.travis-ci.com/user/customizing-the-build/" target="_blank">.travis.yml</a> file to the repository</li>
+                 <li>Authenticate with your GitHub account at <a href="https://travis-ci.org/" target="_blank">https://travis-ci.org</a></li>
+-                <li>Allow Travis CI to watch for repository changes to run jobs</li>
++                <li>Allow Travis CI to watch for repository changes</li>
+               </ol>
+             </div>
+           </section>
+@@ -363,8 +377,11 @@ after_success:
+             <ul>
+               <li>Coverage reports require a third party service like <a href="https://coveralls.io/" target="_blank">Coveralls</a></li>
+               <li>Supports Docker but <a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis/RoboFile.php#L119" target="_blank">needs extra setup</a></li>
+-              <li>No CLI, even though if you use <code>docker-compose</code> you can run the build locally</li>
++              <li>No Command Line Interface to run jobs locally</li>
+             </ul>
++            <aside class="notes">
++              CLI: if you use <code>docker-compose</code> you can run the build locally
++            </aside>
+           </section>
+         </section>
+ 
+@@ -495,13 +512,20 @@ after_success:
+             <li>If you want to use CircleCI, then <a href="https://github.com/Lullabot/drupal8ci#circleci" target="_blank">try this installer</a></li>
+             <li>If you want to use Travis CI, then <a href="https://github.com/Lullabot/drupal8ci#travis-ci" target="_blank">try this installer</a></li>
+             <li>If you want to use CircleCI for a Drupal 8 module, then <a href="https://github.com/deviantintegral/drupal_tests" target="_blank">try this installer</a></li>
+-            <li>If you want to use Jenkins, then [TODO]</li>
++            <li>If you want to use Jenkins, then <a href="https://github.com/Lullabot/drupal8ciblob/master/dist/travisci/.travis/RoboFile.php" target="_blank">try using these Robo tasks</a></li>
++            <li>If you want to compare CI tools, check out these articles.</li>
+           </ul>
++          <aside class="notes">
++            Add link to articles.
++          </aside>
+         </section>
+ 
+         <section data-background="images/yyy-sprints.jpeg" data-background-color="#FFFFFF">
+         </section>
+         <section data-background="images/zzz-feedback.jpeg" data-background-color="#FFFFFF">
++          <aside class="notes">
++            @TODO replace this by the updated version where the links have been fixed.
++          </aside>
+         </section>
+       </div>
+     </div>
