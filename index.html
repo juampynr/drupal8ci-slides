@@ -157,6 +157,10 @@
               <li>4 jobs per pull request, 18 minutes total CPU time</li>
               <li>8 PRs / day, testing 24 total commits</li>
               <li>Team runs some tests locally, reducing CI load due to reworked tests</li>
+            </ul>
+            <aside class="notes">
+              Talk about how Jenkinsfiles are the way to go, but you're giving up the UI.
+            </aside>
           </section>
 
           <section>
@@ -307,6 +311,16 @@ defaults: &defaults
               <li>Not free! May not be suitable for teams with long, slow jobs, and many repositories</li>
               <li>Not as customizable as a Jenkins setup</li>
             </ul>
+          </section>
+          <section>
+            <h2>Pros: Costs</h2>
+            <ul>
+              <li>~50 hours from "we have never used Circle" to done</li>
+              <li>Very minimal maintenance - a few hours twice per year for Drupal core upgrades</li>
+            </ul>
+            <aside class="notes">
+              We had pretty extensive Jenkins experience before.
+            </aside>
           </section>
         </section>
 
