@@ -62,9 +62,9 @@
             <h2>What sort of Continuous Integration are we focusing in?</h2>
           </div>
           <aside class="notes">
-            We are covering just Continuous Integration in this talk. Continuous Delivery deserves it's own session. Besides,
-            there is one so go to it!
-            @TODO Check if there are sessions on continuous delivery
+            We started doing continuous integration with the goal of speeding up peer
+            reviews-reviewing someone else's code-. We will focus in what processes
+            can be automated while working on tickets within a team.
           </aside>
         </section>
 
@@ -93,11 +93,9 @@
           <ul>
             <li>Start with CircleCI or Travis CI</li>
             <li>Travis CI requires further setup than CircleCI, but allows further fine tuning</li>
-            <li>If you prefer to keep everything in-house, use Jenkins or install CircleCI</li>
+            <li>If you prefer to keep everything in-house, use Jenkins or check the behind your firewall
+                versions of CircleCI and Travis CI</li>
           </ul>
-          <aside class="notes">
-            CircleCI has a behind firewall version. Check if Travis CI does too.
-          </aside>
         </section>
 
         <section>
@@ -248,9 +246,6 @@
             <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
               <h2>CircleCI</h2>
             </div>
-            <aside class="notes">
-              TODO: update the background with the one at https://circleci.com/gh/juampynr/drupal8-circleci, which does not load at the moment.
-            </aside>
           </section>
           <section>
             <h2>Sample</h2>
@@ -278,7 +273,6 @@
               <li>Allow CircleCI to watch for repository changes</li>
             </ol>
           </section>
-          <!-- TODO update background with https://circleci.com/gh/juampynr/drupal8-circleci -->
           <section data-background="images/circleci-dashboard.png">
             <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
               <h2>Pros: parallel processing</h2>
@@ -334,9 +328,6 @@
             <div style="background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px;">
               <h2>Travis CI</h2>
             </div>
-            <aside class="notes">
-              @TODO Change background for one of a job with better stats.
-            </aside>
           </section>
           <section>
             <h2>.travis.yml</h2>
@@ -359,7 +350,6 @@ script:
           </section>
           <section data-background="images/travis-watch.png">
             <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-
               <h2>Setup</h2>
               <ol>
                 <li>Add a <a href="https://docs.travis-ci.com/user/customizing-the-build/" target="_blank">.travis.yml</a> file to the repository</li>
@@ -437,7 +427,7 @@ script:
           <section>
             <h2>Ease of updates</h2>
             <p>Can you easily deploy updates, or is software being distributed to far-flung teams?</p>
-            <aside class="notes">
+            <aside class="notes">l
               One-time handoff of code may not be worth testing if it won't be maintained.
             </aside>
           </section>
@@ -517,11 +507,10 @@ script:
         <section>
           <h2>Want more? Check out these links</h2>
           <ul>
-            <li>If you want to use CircleCI, then <a href="https://github.com/Lullabot/drupal8ci#circleci" target="_blank">try this installer</a></li>
-            <li>If you want to use Travis CI, then <a href="https://github.com/Lullabot/drupal8ci#travis-ci" target="_blank">try this installer</a></li>
-            <li>If you want to use CircleCI for a Drupal 8 module, then <a href="https://github.com/deviantintegral/drupal_tests" target="_blank">try this installer</a></li>
+            <li>For CircleCI, try <a href="https://github.com/Lullabot/drupal8ci#circleci" target="_blank">try this installer</a></li>
+            <li>For Travis CI, try <a href="https://github.com/Lullabot/drupal8ci#travis-ci" target="_blank">try this installer</a></li>
+            <li>For standalone Drupal 8 modules, <a href="https://github.com/deviantintegral/drupal_tests" target="_blank">try this installer</a></li>
             <li>If you want to use Jenkins, then watch the above for a pull request</li>
-            <li>If you want to compare CI tools, check out these articles.</li>
           </ul>
         </section>
 
