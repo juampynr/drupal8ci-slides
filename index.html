@@ -79,7 +79,7 @@
         </section>
 
         <section>
-          <h2>Tools that we used</h2>
+          <h2>Tools that we use in jobs</h2>
           <ul>
             <li><a href="https://www.drush.org/" target="_blank">Drush</a></li>
             <li><a href="https://robo.li/" target="_blank">Robo</a></li>
@@ -91,8 +91,8 @@
         <section>
           <h2>Our findings</h2>
           <ul>
-            <li>Start with CircleCI or Travis CI</li>
-            <li>Travis CI requires further setup than CircleCI, but allows further fine tuning</li>
+            <li>Choose between CircleCI or Travis CI</li>
+            <li>Travis CI requires more setup than CircleCI, but allows further fine tuning</li>
             <li>If you prefer to keep everything in-house, use Jenkins or check the behind your firewall
                 versions of CircleCI and Travis CI</li>
           </ul>
@@ -134,8 +134,6 @@
           <section data-background="images/jenkins-plugin.png">
             <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
               <h2>Pros: lots of documentation and plugins</h2>
-              <p>Jenkins has been out there for a long time. It's hard to find a problem that is not solved via
-                an article or a plugin.</p>
             </div>
           </section>
           <section>
@@ -251,17 +249,20 @@
             <h2>Sample</h2>
             <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/circleci/.circleci/config.yml" target="_blank">Open it at GitHub</a></p>
             <pre>
-              <code>- checkout
-- *copy_robo
-- restore_cache: *restore_cache
-- run:
-    name: Run PHPUnit tests
-    command: robo job:run-unit-tests
-- store_test_results:
-    path: /var/www/html/artifacts/phpunit
-- store_artifacts:
-    path: /var/www/html/artifacts
-- save_cache: *save_cache
+              <code>unit_kernel_tests: &unit_kernel_tests
+  <<: *defaults
+  steps:
+    - checkout
+    - *copy_robo
+    - restore_cache: *restore_cache
+    - run:
+        name: Run PHPUnit tests
+        command: robo job:run-unit-tests
+    - store_test_results:
+        path: /var/www/html/artifacts/phpunit
+    - store_artifacts:
+        path: /var/www/html/artifacts
+    - save_cache: *save_cache
               </code>
             </pre>
           </section>
@@ -333,15 +334,16 @@
             <h2>.travis.yml</h2>
             <p><a href="https://github.com/Lullabot/drupal8ci/blob/master/dist/travisci/.travis.yml" target="_blank">View full file</a></p>
             <pre>
-              <code>env:
+              <code>cache:
+  directories:
+    - $HOME/.composer/cache/files
+services:
+  - docker
+env:
   matrix:
     - JOB=job:check-coding-standards
     - JOB=job:run-unit-tests
     - JOB=job:run-behat-tests
-
-before_script:
-  - cp .travis/RoboFile.php .
-
 script:
   - vendor/bin/robo $JOB
               </code>
