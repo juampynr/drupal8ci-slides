@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Continuous Integration has never been so easy - DrupalCon 2018</title>
+    <title>Continuous Integration has never been so easy - Drupal HackCamp 2018</title>
 
     <meta name="description" content="An overview of CI tools for Drupal 8 projects">
 
@@ -39,22 +39,16 @@
 
     <div class="reveal">
       <div class="slides">
-        <section>
+        <section data-background="images/opening-background.jpg" data-background-color="#FFFFFF">
           <h1>Continuous Integration has never been so easy</h1>
-          <h3>DrupalCon Nashville, April 2018</h3>
+          <h3>Drupal HackCamp, June 2018</h3>
         </section>
 
-        <section data-background="images/02-title-slide.jpeg" data-background-color="#FFFFFF">
-        </section>
-
-        <section data-background="images/lullabot-logo.png" data-background-color="#FFFFFF" data-background-size="500px">
-        </section>
-
-        <section>
-          <p>Continuous Integration enables your team to deliver <em>more software</em>, with <em>higher quality</em>, over a <em>longer period of time</em>. A successful CI implementation requires proper management of sprint, product, and financial risk.</p>
-          <aside class="notes">
-            Talk here about how did we start doing this and what it has lead us to.
-          </aside>
+        <!--<section data-background="images/lullabot-logo.png" data-background-color="#FFFFFF" data-background-size="500px">-->
+        <section data-background-color="#FFFFFF">
+          <img src="images/careto.jpg" class="plain" width="30%" />
+          <p><a href="https://twitter.com/juampynr" target="_blank">@juampynr</a></p>
+          <img src="images/lullabot-logo.png" class="plain" width="50%" />
         </section>
 
         <section data-background="images/cifeedback.jpg">
@@ -171,16 +165,6 @@
           </section>
 
           <section>
-            <h2>EC2 as a VPS</h2>
-            <ul>
-              <li>Easiest to understand and setup</li>
-              <li>The server is always there adding to your bills</li>
-              <li>Activity spikes (like the end of a sprint)</li>
-              <li>Autoscaling is a lie</li>
-            </ul>
-          </section>
-
-          <section>
             <table>
             <tbody>
             <tr>
@@ -227,15 +211,6 @@
               <li>Literally hundreds to thousands of dollars per month</li>
               <li>Doesn't include client team hours which was all of the infrastructure and hosting</li>
             </ul>
-          </section>
-
-          <section>
-            <h2>Knowledge pool</h2>
-            <p>Your team presumably knows Drupal, JavaScript, programming. <em>You</em> might know Jenkins, but is it your job? What about after the initial setup?</p>
-          </section>
-
-          <section>
-            <p>The costs of hosting Jenkins <em>efficiently</em> are directly related to the <em>expertise of your devops staff</em>; you may pay more for a Jenkins expert than the hosting costs of an unoptimized architecture.</p>
           </section>
         </section>
 
@@ -388,60 +363,6 @@ script:
           </section>
 
           <section>
-            <blockquote>"Tests are too hard"</blockquote>
-            <small>— Many developers, including those on stage</small>
-          </section>
-
-          <section>
-            <blockquote>"We don't trust the tests"</blockquote>
-            <small>— A reasonably skeptical QA lead</small>
-          </section>
-
-          <section>
-            <blockquote>"We will spend more time on tests than fixing bugs"</blockquote>
-            <small>— A project manager with experience</small>
-          </section>
-
-          <section>
-            <blockquote>"We need to deliver"</blockquote>
-            <small>— Every product owner, ever</small>
-          </section>
-
-          <section>
-            <h2>Evaluating a project for CI</h2>
-          </section>
-
-          <section>
-            <h2>Six months or six years?</h2>
-            <aside class="notes">
-              When is this code being replaced?
-            </aside>
-          </section>
-
-          <section>
-            <h2>Growing business or changing business?</h2>
-            <p>Are you continuously stretching your code base to be larger, or refining and replacing the same code, over and over?</p>
-          </section>
-
-          <section>
-            <h2>Ease of updates</h2>
-            <p>Can you easily deploy updates, or is software being distributed to far-flung teams?</p>
-            <aside class="notes">l
-              One-time handoff of code may not be worth testing if it won't be maintained.
-            </aside>
-          </section>
-
-          <section>
-            <h2>Environmental Conditions</h2>
-            <p>Where is your code running? One site and environment, or many?</p>
-          </section>
-
-          <section>
-            <h2>QA Planning</h2>
-            <p>Regression testing is the biggest pain point. Developers as QA can be a great model.</p>
-          </section>
-
-          <section>
             <h2>Developers</h2>
             <blockquote>"Tests are too hard"</blockquote>
             <p>Tests are <em>tools</em> and <em>APIs</em> that teach you the underlying systems.</p>
@@ -506,17 +427,20 @@ script:
         <section>
           <h2>Want more? Check out these links</h2>
           <ul>
-            <li>For CircleCI, try <a href="https://github.com/Lullabot/drupal8ci#circleci" target="_blank">try this installer</a></li>
-            <li>For Travis CI, try <a href="https://github.com/Lullabot/drupal8ci#travis-ci" target="_blank">try this installer</a></li>
-            <li>For standalone Drupal 8 modules, <a href="https://github.com/deviantintegral/drupal_tests" target="_blank">try this installer</a></li>
-            <li>Article series on <a href="https://www.lullabot.com/articles/continuous-integration-drupal-8-circleci" target="_blank">CI tools for Drupal 8 projects</a></li>
+            <li>For CircleCI and Travis CI, follow instructions at <a href="https://github.com/Lullabot/drupal8ci" target="_blank">https://github.com/Lullabot/drupal8ci</a></li>
+            <li>For standalone Drupal 8 modules, try <a href="https://github.com/deviantintegral/drupal_tests" target="_blank">https://github.com/deviantintegral/drupal_tests</a></li>
+            <li>Lullabot's article series on <a href="https://www.lullabot.com/articles/continuous-integration-drupal-8-circleci" target="_blank">CI tools for Drupal 8</a></li>
           </ul>
         </section>
 
-        <section data-background="images/yyy-sprints.png" data-background-color="#FFFFFF">
+        <section data-background="images/opening-background.jpg" data-background-color="#FFFFFF">
+          <h2>Thanks! Questions?</h2>
+          <ul>
+            <li><a href="https://twitter.com/juampynr" target="_blank">@juampynr</a></li>
+            <li>Rate this session at <a href="https://www.surveymonkey.com/r/QTLXNVQ" target="_blank">https://www.surveymonkey.com/r/QTLXNVQ</a></li>
+          </ul>
         </section>
-        <section data-background="images/zzz-feedback.png" data-background-color="#FFFFFF">
-        </section>
+
       </div>
     </div>
 
